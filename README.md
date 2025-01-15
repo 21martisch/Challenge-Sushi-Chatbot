@@ -158,9 +158,8 @@ Devuelve el menú completo de productos disponibles.
     "price": 12
   }
 ]
-
+```
 ---
-
 ## Pruebas
 
 ### Ejecutar las pruebas
