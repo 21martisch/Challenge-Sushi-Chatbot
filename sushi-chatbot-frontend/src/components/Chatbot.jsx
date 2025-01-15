@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+import Cookies from 'js-cookie';
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([
@@ -7,16 +9,35 @@ const Chatbot = () => {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState('');
 
-  const handleSendMessage = async () => {
+  useEffect(() => {
+    const storedUserId = Cookies.get('userId');
+    if (storedUserId) {
+        setUserId(storedUserId);
+    } else {
+        const newUserId = uuidv4();
+        Cookies.set('userId', newUserId, { expires: 365 });
+        setUserId(newUserId);
+    }
+}, []);
+
+   const handleSendMessage = async () => {
     if (inputValue.trim()) {
       const userMessage = { id: messages.length + 1, text: inputValue };
       setMessages([...messages, userMessage]);
       setInputValue('');
       setLoading(true);
-
+  
       try {
-        const response = await axios.post('http://localhost:5000/chat', { message: userMessage.text });
+        const response = await axios.post('http://localhost:5000/chat', 
+          { 
+            message: userMessage.text, 
+            userId
+          },
+          { withCredentials: true }
+        );
+  
         const botMessage = { id: messages.length + 2, text: response.data.reply };
         setMessages((prev) => [...prev, botMessage]);
       } catch (error) {
@@ -27,6 +48,7 @@ const Chatbot = () => {
       }
     }
   };
+  
 
   return (
     <div className="mt-6 p-4 bg-white text-black rounded shadow-lg max-w-md mx-auto animate-fade-in">

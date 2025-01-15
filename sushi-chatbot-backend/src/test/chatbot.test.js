@@ -6,13 +6,11 @@ import Order from '../models/Order.js';
 
 describe('Chatbot Sushi API', () => {
     beforeAll(async () => {
-        // Configurar conexión de prueba a MongoDB
         await mongoose.connect(process.env.MONGO_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
 
-        // Datos de ejemplo
         await Product.insertMany([
           { name: 'California Roll', description: 'Roll with crab, avocado, and cucumber', price: 1200 },
           { name: 'Sake Nigiri', description: 'Fresh salmon on rice', price: 900 },
@@ -21,7 +19,6 @@ describe('Chatbot Sushi API', () => {
     });
 
     afterAll(async () => {
-        // Limpiar base de datos y cerrar conexión
         await Product.deleteMany();
         await Order.deleteMany();
         await mongoose.connection.close();

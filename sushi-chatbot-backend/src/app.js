@@ -6,24 +6,25 @@ import menuRoutes from './routes/menuRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import connectDB from './config/database.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import cookieParser from 'cookie-parser';
+import { assignUserId } from './middleware/assignUserId.js';
 import cors from 'cors'
 
 dotenv.config();
 
-// Inicialización
 const app = express();
 app.use(bodyParser.json());
+app.use(cookieParser());
 
-// Conexión a MongoDB
 connectDB();
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Dirección del frontend
-    methods: ['GET', 'POST'], // Métodos permitidos
-    credentials: true, // Si necesitas enviar cookies o encabezados con credenciales
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST'],
+    credentials: true,
 }));
+app.use(assignUserId);
 
-// Rutas
 app.use('/chat', chatRoutes);
 app.use('/menu', menuRoutes);
 app.use('/order', orderRoutes);
