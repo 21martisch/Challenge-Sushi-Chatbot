@@ -1,0 +1,68 @@
+.sushi-pieza{
+    display: none;
+}
+.sushi-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; 
+  margin-top: 20px; 
+}
+
+.sushi-boat {
+    position: absolute;
+    top: 50px;  
+    left: 70%;  
+    transform: translateX(-50%); 
+    width: 150px; 
+    height: auto;
+  }
+  
+.arrow {
+    position: absolute;
+    top: 130px;
+    left: 60%;
+    width: 70px; 
+    height: auto;
+}
+
+.exclamation {
+    position: absolute;
+    top: 20px;
+    left: 69%;
+    width: 40px; 
+    height: auto;
+}
+
+@media (max-width: 600px) {
+    .sushi-boat {
+        top: 80px;
+        left: 85%;
+        width: 100px;
+    }
+    .arrow{
+        top: 150px;
+        left: 70%;
+        width: 50px; 
+    }
+    .exclamation {
+        top: 50px;
+        left: 85%;
+        width: 30px; 
+    }
+    .sushi-pieza{
+        display: none;
+    }
+}
+@media (max-width: 450px) {
+    .sushi-boat,
+    .arrow,
+    .exclamation {
+      display: none;
+    }
+    .sushi-pieza{
+        display: flex;
+        justify-content: end;
+        width: 90px;
+    }
+  }

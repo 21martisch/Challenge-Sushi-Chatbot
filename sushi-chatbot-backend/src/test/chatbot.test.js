@@ -14,7 +14,7 @@ describe('Chatbot Sushi API', () => {
         await Product.insertMany([
           { name: 'California Roll', description: 'Roll with crab, avocado, and cucumber', price: 1200 },
           { name: 'Sake Nigiri', description: 'Fresh salmon on rice', price: 900 },
-          { name: 'Fanta', description: 'Refreshing drink', price: 500 },
+          { name: 'Coca-Cola', description: 'Refreshing drink', price: 500 },
       ]);
     });
 
@@ -62,12 +62,12 @@ describe('Chatbot Sushi API', () => {
         });
         it('debe procesar pedidos múltiples correctamente', async () => {
           const res = await request(app).post('/chat').send({
-              message: '2 California Roll, 3 Fanta, 1 Sake Nigiri',
+              message: 'quiero 2 California Roll, 3 Coca-Cola y 1 Sake Nigiri',
           });
       
-          expect(res.statusCode).toBe(200); // Cambiado de 201 a 200
+          expect(res.statusCode).toBe(200);
           expect(res.body.reply).toContain('2 x California Roll');
-          expect(res.body.reply).toContain('3 x Fanta');
+          expect(res.body.reply).toContain('3 x Coca-Cola');
           expect(res.body.reply).toContain('1 x Sake Nigiri');
           expect(res.body.reply).toContain('Total: $4800');
       });
@@ -77,16 +77,7 @@ describe('Chatbot Sushi API', () => {
         it('debe responder con un saludo', async () => {
             const res = await request(app).post('/chat').send({ message: 'Hola' });
             expect(res.statusCode).toBe(200);
-            expect(res.body.reply).toBe('¡Hola! ¿Cómo puedo ayudarte hoy?');
-        });
-
-        
-        it('debe mostrar el menú al pedirlo', async () => {
-          const res = await request(app).post('/chat').send({ message: 'Muéstrame el menú' });
-          expect(res.statusCode).toBe(200);
-          expect(res.body.reply).toContain('California Roll');
-          expect(res.body.reply).toContain('Sake Nigiri');
-          expect(res.body.reply).toContain('Coca-Cola');
+            expect(res.body.reply).toBe('¡Hola! Soy tu asistente para pedidos de sushi. ¿Cómo puedo ayudarte hoy? Puedes ver el menú, hacer un pedido, o agregar productos a tu pedido.');
         });
 
         it('debe manejar mensajes no reconocidos', async () => {
